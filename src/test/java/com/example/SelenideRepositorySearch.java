@@ -28,6 +28,20 @@ public class SelenideRepositorySearch {
     }
         @Test
         void shouldFindSelenideRepositoryAtTheTop() {
+
+            String expectedCode = "ExtendWith({SoftAssertsExtension.class})\n" +
+                    "class Tests {\n" +
+                    "  @Test\n" +
+                    "  void test() {\n" +
+                    "    Configuration.assertionMode = SOFT;\n" +
+                    "    open(\"page.html\");\n" +
+                    "\n" +
+                    "    $(\"#first\").should(visible).click();\n" +
+                    "    $(\"#second\").should(visible).click();\n" +
+                    "  }\n" +
+                    "}";
+
+
             open("https://github.com/");
             $("span.flex-1").click();
             $("#query-builder-test").setValue("selenide").pressEnter();
@@ -37,7 +51,8 @@ public class SelenideRepositorySearch {
         //.scrollIntoView(true).$(byText("Show 3 more pages..."))
             $("span.Truncate").shouldHave(text("SoftAssertions")).click();
             $(byTagAndText("h4", "3. Using JUnit5 extend test class:"))
-                    .parent().sibling(0).$("pre").shouldHave(text("ExtendWith"));
+                    .parent().sibling(0).$("pre")
+                    .shouldHave(text(expectedCode));
 
         }
 
